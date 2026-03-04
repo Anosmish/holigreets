@@ -201,21 +201,70 @@ if(!name){
     app.innerHTML = `
     <section>
         <h1 class="hero-name">${name}</h1>
-        <div class="scroll">⬇ Scroll to Celebrate ⬇</div>
     </section>
 
     <section>
         <div class="frame">
-            <div class="quote">"रंगों का यह पर्व आपके जीवन में नई ऊर्जा और आनंद भर दे।"</div>
-            <div class="quote">"May the colors of Holi paint your life with joy and prosperity."</div>
+            <h2 style="color:gold;font-family:Cinzel;">रंगों का पावन उत्सव</h2>
+            <div class="quote">
+            होली केवल रंगों का त्योहार नहीं,
+            यह दिलों को जोड़ने और रिश्तों को रंगने का पर्व है।
+            </div>
+            <div class="quote">
+            यह दिन है गिले-शिकवे मिटाने का,
+            खुशियों को गले लगाने का।
+            </div>
         </div>
     </section>
 
     <section>
         <div class="frame">
-            <h2>${name} Wishes You</h2>
-            <h1 style="font-family:Cinzel;color:gold;font-size:60px;">HAPPY HOLI 🎉</h1>
-            <button onclick="reset()">Create Your Own Greeting</button>
+            <h2 style="color:gold;">${name} की ओर से शुभकामनाएँ</h2>
+            <h1 style="font-family:Cinzel;color:gold;font-size:60px;">
+            आपको और आपके परिवार को <br> होली की हार्दिक शुभकामनाएँ 🎉
+            </h1>
+            <p class="quote">
+            ईश्वर आपके जीवन को खुशियों, प्रेम और सफलता के रंगों से भर दे।
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <div class="frame">
+            <h2 style="color:gold;font-family:Cinzel;">होली का संदेश</h2>
+            <p class="quote">
+            रंगों की बौछार, अपनों का प्यार,
+            मुबारक हो आपको होली का त्यौहार।
+            </p>
+            <p class="quote">
+            हर दिन हो आपके जीवन में बसंत,
+            हर पल हो खुशियों से संत।
+            </p>
+        </div>
+    </section>
+
+    <!-- YouTube Embed Section -->
+    <section>
+        <div class="frame">
+            <h2 style="color:gold;font-family:Cinzel;">🎥 होली उत्सव विशेष वीडियो 🎥</h2>
+
+            <!-- Replace VIDEO_ID with your YouTube video ID -->
+            <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:20px;box-shadow:0 0 20px gold;">
+
+              
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/87FYp3YLEBM?si=pKaRbdSN9fQUp4f9&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+
+            <p style="margin-top:20px;font-size:14px;opacity:0.8;">
+            (यहाँ आप अपना YouTube video ID डाल सकते हैं)
+            </p>
+
+        </div>
+    </section>
+
+    <section>
+        <div class="frame">
+            <button onclick="reset()">अपना स्वयं का होली संदेश बनाएं</button>
         </div>
     </section>
     `;
