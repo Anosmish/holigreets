@@ -1,138 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ancient Holi Greetings</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #d4af37;
-            --maroon: #4a0404;
-            --parchment: #f4e4bc;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ancient Holi Greetings</title>
 
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #2a0202;
-            background-image: radial-gradient(circle, #4a0404 0%, #000000 100%);
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            text-align: center;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;500&display=swap');
 
-        /* Ancient Frame Container */
-        .card {
-            border: 15px solid transparent;
-            border-image: linear-gradient(to bottom right, #d4af37, #8b4513, #d4af37) 30;
-            padding: 40px;
-            background: var(--parchment);
-            color: var(--maroon);
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            position: relative;
-        }
+body{
+    margin:0;
+    padding:0;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #3a1c71, #000);
+    color:white;
+    overflow:hidden;
+}
 
-        h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 20px; }
+/* Ancient Border */
+.main-box{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:90%;
+    max-width:600px;
+    padding:40px;
+    text-align:center;
+    border:5px solid gold;
+    border-radius:25px;
+    box-shadow:0 0 40px gold;
+    background:rgba(0,0,0,0.6);
+}
 
-        .floating {
-            animation: float 3s ease-in-out infinite;
-        }
+/* Heading Style */
+h1{
+    font-family:'Cinzel', serif;
+    font-size:32px;
+    color:gold;
+    text-shadow:0 0 10px orange;
+}
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
+/* Floating Text Animation */
+.floating{
+    animation: floatText 3s ease-in-out infinite;
+}
 
-        input {
-            padding: 10px;
-            width: 80%;
-            margin: 10px 0;
-            border: 2px solid var(--maroon);
-            background: transparent;
-            font-family: inherit;
-            color: var(--maroon);
-        }
+@keyframes floatText{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-10px);}
+    100%{transform:translateY(0px);}
+}
 
-        button {
-            padding: 10px 20px;
-            background: var(--maroon);
-            color: var(--gold);
-            border: none;
-            cursor: pointer;
-            font-family: 'Cinzel', serif;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
+/* Button Style */
+button{
+    padding:10px 20px;
+    margin-top:20px;
+    border:none;
+    border-radius:20px;
+    background:gold;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-        button:hover { background: #7a0a0a; }
+button:hover{
+    background:orange;
+    transform:scale(1.1);
+}
 
-        #greeting-area { display: none; }
-        #input-area { display: block; }
-    </style>
+/* Input Style */
+input{
+    padding:10px;
+    width:80%;
+    border-radius:20px;
+    border:none;
+    margin-top:20px;
+    text-align:center;
+}
+
+/* Floating Colors */
+.color{
+    position:absolute;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    opacity:0.5;
+    filter:blur(30px);
+    animation: move 10s linear infinite;
+}
+
+@keyframes move{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-1000px);}
+}
+
+.color:nth-child(1){background:red; left:10%;}
+.color:nth-child(2){background:blue; left:40%;}
+.color:nth-child(3){background:yellow; left:70%;}
+</style>
 </head>
+
 <body>
 
-<div class="card">
-    <div id="input-area">
-        <h1>Welcome</h1>
-        <p>Enter your name to create your blessing:</p>
-        <input type="text" id="name-input" placeholder="Your Name">
-        <br>
-        <button onclick="setName()">Generate Wish</button>
-    </div>
+<div class="color"></div>
+<div class="color"></div>
+<div class="color"></div>
 
-    <div id="greeting-area">
-        <div class="floating">
-            <h1>Happy Holi!</h1>
-            <p id="message"></p>
-        </div>
-        <button onclick="clearName()">Create Your Own</button>
-    </div>
-</div>
+<div class="main-box" id="content"></div>
 
 <script>
-    const inputArea = document.getElementById('input-area');
-    const greetingArea = document.getElementById('greeting-area');
-    const nameDisplay = document.getElementById('message');
-    const inputField = document.getElementById('name-input');
+const content = document.getElementById("content");
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
 
-    // Check URL for name
-    const urlParams = new URLSearchParams(window.location.search);
-    const userName = urlParams.get('name');
+if(!name){
+    content.innerHTML = `
+        <h1>Enter Your Name</h1>
+        <input type="text" id="username" placeholder="Type your name...">
+        <br>
+        <button onclick="generateLink()">Create Greeting</button>
+    `;
+}else{
+    content.innerHTML = `
+        <h1 class="floating">🌸 Happy Holi 🌸</h1>
+        <p>"रंगों का त्योहार आपके जीवन में खुशियाँ भर दे।"</p>
+        <p>"May your life be as colorful as Holi."</p>
+        <h2 style="color:gold;">${name} wishes you Happy Holi 🎉</h2>
+        <button onclick="createNew()">Create Your Own Greeting</button>
+    `;
+}
 
-    if (userName) {
-        showGreeting(userName);
+function generateLink(){
+    const username = document.getElementById("username").value.trim();
+    if(username){
+        window.location.href = window.location.pathname + "?name=" + encodeURIComponent(username);
     }
+}
 
-    function setName() {
-        const name = inputField.value;
-        if (name) {
-            window.location.search = `?name=${encodeURIComponent(name)}`;
-        }
-    }
-
-    function showGreeting(name) {
-        inputArea.style.display = 'none';
-        greetingArea.style.display = 'block';
-        
-        // Hindi & English Message
-        const greetingText = `
-            रंगों का यह त्यौहार आपके जीवन में खुशियाँ लाए।<br>
-            <strong>${name}</strong>, wishing you a vibrant and colorful Holi filled with love and prosperity!
-        `;
-        nameDisplay.innerHTML = greetingText;
-    }
-
-    function clearName() {
-        window.location.href = window.location.pathname;
-    }
+function createNew(){
+    window.location.href = window.location.pathname;
+}
 </script>
 
 </body>
