@@ -27,6 +27,35 @@
     animation: glowFooter 2s infinite alternate;
 }
 
+    @keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(5px,5px); }
+  50% { transform: translate(-5px,5px); }
+  75% { transform: translate(5px,-5px); }
+  100% { transform: translate(0,0); }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+
+    .burst {
+    position:fixed;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    pointer-events:none;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    to {
+        transform:translate(var(--x), var(--y));
+        opacity:0;
+    }
+}
+
 @keyframes glowFooter{
     from{ text-shadow:0 0 5px gold; }
     to{ text-shadow:0 0 15px orange, 0 0 25px red; }
@@ -199,9 +228,21 @@ if(!name){
     `;
 }else{
     app.innerHTML = `
-    <section>
-        <h1 class="hero-name">${name}</h1>
-    </section>
+    <section id="intro">
+    <h1 class="hero-name">${name}</h1>
+
+    <div class="frame" style="margin-top:40px;">
+        <h2 style="color:gold;font-family:Cinzel;">
+            ने आपके लिए होली का संदेश भेजा है 🎨
+        </h2>
+
+        <p class="quote">
+            नीचे दिए गए बटन पर क्लिक करके देखें
+        </p>
+
+        <button onclick="goNext()">संदेश देखें</button>
+    </div>
+</section>
 
     <section>
         <div class="frame">
@@ -217,7 +258,7 @@ if(!name){
         </div>
     </section>
 
-    <section>
+    <section id="messageSection">
         <div class="frame">
             <h2 style="color:gold;">${name} की ओर से शुभकामनाएँ</h2>
             <h1 style="font-family:Cinzel;color:gold;font-size:60px;">
@@ -250,10 +291,15 @@ if(!name){
 
             <!-- Replace VIDEO_ID with your YouTube video ID -->
             <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:20px;box-shadow:0 0 20px gold;">
-
-              
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/87FYp3YLEBM?si=pKaRbdSN9fQUp4f9&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
+    <iframe 
+        id="holiVideo"
+        src=""
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:20px;">
+    </iframe>
+</div>
 
             <p style="margin-top:20px;font-size:14px;opacity:0.8;">
             (यहाँ आप अपना YouTube video ID डाल सकते हैं)
@@ -265,10 +311,55 @@ if(!name){
     <section>
         <div class="frame">
             <button onclick="reset()">अपना स्वयं का होली संदेश बनाएं</button>
+            <br>
+            <button onclick="shareWhatsApp()">WhatsApp पर Share करें</button>
         </div>
     </section>
     `;
 }
+
+    function shareWhatsApp(){
+    const name = new URLSearchParams(window.location.search).get("name");
+    const url = window.location.href;
+    const message = `${name} ने आपको होली की शुभकामनाएँ भेजी हैं 🎨🌸\n\nदेखें यहाँ:\n${url}`;
+    const whatsappURL = "https://wa.me/?text=" + encodeURIComponent(message);
+    window.open(whatsappURL, "_blank");
+    }
+
+    function goNext(){
+
+    const name = new URLSearchParams(window.location.search).get("name");
+
+    // 🎶 Play Dhol
+    const sound = document.getElementById("dholSound");
+    sound.play();
+
+    // ✨ Screen Shake
+    document.body.classList.add("shake");
+    setTimeout(()=> document.body.classList.remove("shake"), 500);
+
+    // 💥 Color Burst
+    for(let i=0;i<40;i++){
+        const burst = document.createElement("div");
+        burst.className="burst";
+        burst.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        burst.style.left=window.innerWidth/2+"px";
+        burst.style.top=window.innerHeight/2+"px";
+        burst.style.setProperty("--x",(Math.random()*600-300)+"px");
+        burst.style.setProperty("--y",(Math.random()*600-300)+"px");
+        document.body.appendChild(burst);
+        setTimeout(()=>burst.remove(),1000);
+    }
+
+    // 🎥 Load YouTube Autoplay After Click
+    document.getElementById("holiVideo").src =
+    "https://www.youtube.com/embed/87FYp3YLEBM?autoplay=1&mute=1&controls=0";
+
+    // Smooth Scroll
+    document.querySelector("#messageSection").scrollIntoView({
+        behavior:"smooth"
+    });
+    }
 
 function create(){
     const username = document.getElementById("username").value.trim();
@@ -282,6 +373,8 @@ function reset(){
 }
 
 </script>
+
+    <audio id="dholSound" src="https://assets.mixkit.co/active_storage/sfx/2021/2021-preview.mp3"></audio>
 <div class="footer-credit">
     ✨ Made by Anosmish ✨
 </div>
