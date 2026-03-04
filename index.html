@@ -3,63 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ancient Holi Greetings</title>
+<title>Royal Holi Greeting</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;500&display=swap');
-
 body{
     margin:0;
-    padding:0;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at top, #3a1c71, #000);
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(to bottom,#2b1055,#000);
     color:white;
-    overflow:hidden;
+    overflow-x:hidden;
+}
+
+/* Floating Color Balls */
+.color{
+    position:fixed;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    opacity:0.4;
+    filter:blur(60px);
+    animation: floatUp 20s linear infinite;
+}
+
+.color:nth-child(1){background:red; left:10%; animation-delay:0s;}
+.color:nth-child(2){background:blue; left:40%; animation-delay:5s;}
+.color:nth-child(3){background:yellow; left:70%; animation-delay:10s;}
+
+@keyframes floatUp{
+    0%{top:100%;}
+    100%{top:-20%;}
+}
+
+/* Sections */
+section{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    padding:40px;
 }
 
 /* Ancient Border */
-.main-box{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:90%;
-    max-width:600px;
-    padding:40px;
-    text-align:center;
+.box{
     border:5px solid gold;
-    border-radius:25px;
-    box-shadow:0 0 40px gold;
+    padding:40px;
+    border-radius:30px;
+    box-shadow:0 0 30px gold;
     background:rgba(0,0,0,0.6);
+    width:90%;
+    max-width:800px;
 }
 
-/* Heading Style */
-h1{
-    font-family:'Cinzel', serif;
-    font-size:32px;
+/* Big Name Style */
+.big-name{
+    font-family:'Cinzel',serif;
+    font-size:70px;
     color:gold;
-    text-shadow:0 0 10px orange;
+    text-shadow:0 0 20px orange, 0 0 40px red;
+    animation: glow 2s infinite alternate;
 }
 
-/* Floating Text Animation */
-.floating{
-    animation: floatText 3s ease-in-out infinite;
+@keyframes glow{
+    from{text-shadow:0 0 10px gold;}
+    to{text-shadow:0 0 40px red;}
 }
 
-@keyframes floatText{
-    0%{transform:translateY(0px);}
-    50%{transform:translateY(-10px);}
-    100%{transform:translateY(0px);}
-}
-
-/* Button Style */
 button{
-    padding:10px 20px;
-    margin-top:20px;
+    padding:12px 25px;
     border:none;
-    border-radius:20px;
+    border-radius:25px;
     background:gold;
-    color:black;
     font-weight:bold;
     cursor:pointer;
     transition:0.3s;
@@ -70,35 +87,36 @@ button:hover{
     transform:scale(1.1);
 }
 
-/* Input Style */
 input{
-    padding:10px;
+    padding:12px;
     width:80%;
-    border-radius:20px;
+    border-radius:25px;
     border:none;
-    margin-top:20px;
     text-align:center;
+    margin-top:20px;
 }
 
-/* Floating Colors */
-.color{
-    position:absolute;
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    opacity:0.5;
-    filter:blur(30px);
-    animation: move 10s linear infinite;
+.quote{
+    font-size:22px;
+    margin:20px 0;
+    animation: fadeIn 3s ease-in-out infinite alternate;
 }
 
-@keyframes move{
-    0%{transform:translateY(0);}
-    100%{transform:translateY(-1000px);}
+@keyframes fadeIn{
+    from{opacity:0.5;}
+    to{opacity:1;}
 }
 
-.color:nth-child(1){background:red; left:10%;}
-.color:nth-child(2){background:blue; left:40%;}
-.color:nth-child(3){background:yellow; left:70%;}
+.scroll-down{
+    margin-top:20px;
+    font-size:18px;
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(10px);}
+}
 </style>
 </head>
 
@@ -108,38 +126,64 @@ input{
 <div class="color"></div>
 <div class="color"></div>
 
-<div class="main-box" id="content"></div>
+<div id="mainContent"></div>
 
 <script>
-const content = document.getElementById("content");
+const main = document.getElementById("mainContent");
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 
 if(!name){
-    content.innerHTML = `
-        <h1>Enter Your Name</h1>
-        <input type="text" id="username" placeholder="Type your name...">
-        <br>
-        <button onclick="generateLink()">Create Greeting</button>
+    main.innerHTML = `
+    <section>
+        <div class="box">
+            <h1 style="color:gold;font-family:Cinzel;">Enter Your Name</h1>
+            <input type="text" id="username" placeholder="Type your name...">
+            <br>
+            <button onclick="generate()">Create Royal Greeting</button>
+        </div>
+    </section>
     `;
 }else{
-    content.innerHTML = `
-        <h1 class="floating">🌸 Happy Holi 🌸</h1>
-        <p>"रंगों का त्योहार आपके जीवन में खुशियाँ भर दे।"</p>
-        <p>"May your life be as colorful as Holi."</p>
-        <h2 style="color:gold;">${name} wishes you Happy Holi 🎉</h2>
-        <button onclick="createNew()">Create Your Own Greeting</button>
+    main.innerHTML = `
+    <section>
+        <h1 class="big-name">${name}</h1>
+        <div class="scroll-down">⬇ Scroll Down ⬇</div>
+    </section>
+
+    <section>
+        <div class="box">
+            <h2 style="color:gold;">🌸 Happy Holi 🌸</h2>
+            <p class="quote">"रंगों का त्योहार आपके जीवन को खुशियों से भर दे।"</p>
+            <p class="quote">"May your life be filled with vibrant colors of happiness."</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="box">
+            <h2>${name} wishes you</h2>
+            <h1 style="color:gold;font-size:50px;">Happy Holi 🎉</h1>
+            <button onclick="resetPage()">Create Your Own Greeting</button>
+        </div>
+    </section>
+
+    <section>
+        <div class="box">
+            <h2>Celebrate the Festival of Colors</h2>
+            <p class="quote">Let joy burst like colors in the sky!</p>
+        </div>
+    </section>
     `;
 }
 
-function generateLink(){
+function generate(){
     const username = document.getElementById("username").value.trim();
     if(username){
         window.location.href = window.location.pathname + "?name=" + encodeURIComponent(username);
     }
 }
 
-function createNew(){
+function resetPage(){
     window.location.href = window.location.pathname;
 }
 </script>
